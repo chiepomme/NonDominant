@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="NonDominant.Views.ActionKeyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NonDominant.Views"
+             xmlns:vm="clr-namespace:NonDominant.ViewModels"
+             d:DataContext="{d:DesignInstance {x:Type vm:ActionKeyViewModel}}"
+             mc:Ignorable="d">
+    <StackPanel Orientation="Horizontal">
+        <ComboBox ItemsSource="{Binding KeyItems}" SelectedItem="{Binding Key}" DisplayMemberPath="Display" Width="120" VerticalAlignment="Center"/>
+        <CheckBox IsChecked="{Binding Ctrl}" Content="Ctrl" VerticalAlignment="Center" Margin="5 0 3 0"/>
+        <CheckBox IsChecked="{Binding Alt}" Content="Alt" VerticalAlignment="Center" Margin="3 0 3 0"/>
+        <CheckBox IsChecked="{Binding Shift}" Content="Shift" VerticalAlignment="Center" Margin="3 0 3 0"/>
+        <CheckBox IsChecked="{Binding Win}" Content="Win" VerticalAlignment="Center" Margin="3 0 3 0"/>
+    </StackPanel>
+</UserControl>

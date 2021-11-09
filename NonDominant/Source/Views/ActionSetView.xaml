@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="NonDominant.Views.ActionSetView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NonDominant.Views"
+             xmlns:vm="clr-namespace:NonDominant.ViewModels"
+             d:DataContext="{d:DesignInstance {x:Type vm:ActionSetViewModel}}"
+             mc:Ignorable="d">
+    <StackPanel Orientation="Horizontal">
+        <GroupBox Header="通常">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="ダウン"/>
+                    <local:ActionKeyView DataContext="{Binding Down}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="ホールド"/>
+                    <local:ActionKeyView DataContext="{Binding Hold}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="クリック"/>
+                    <local:ActionKeyView DataContext="{Binding Click}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="ダブルクリック"/>
+                    <local:ActionKeyView DataContext="{Binding DoubleClick}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="アップ"/>
+                    <local:ActionKeyView DataContext="{Binding Up}"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="ZL を押しながら" Visibility="{Binding ZLVisibility}">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="ダウン"/>
+                    <local:ActionKeyView DataContext="{Binding LDown}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="ホールド"/>
+                    <local:ActionKeyView DataContext="{Binding LHold}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="クリック"/>
+                    <local:ActionKeyView DataContext="{Binding LClick}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="ダブルクリック"/>
+                    <local:ActionKeyView DataContext="{Binding LDoubleClick}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="アップ"/>
+                    <local:ActionKeyView DataContext="{Binding LUp}"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="ZR を押しながら" Visibility="{Binding ZRVisibility}">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="ダウン"/>
+                    <local:ActionKeyView DataContext="{Binding RDown}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="ホールド"/>
+                    <local:ActionKeyView DataContext="{Binding RHold}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="クリック"/>
+                    <local:ActionKeyView DataContext="{Binding RClick}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="ダブルクリック"/>
+                    <local:ActionKeyView DataContext="{Binding RDoubleClick}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="80" Content="アップ"/>
+                    <local:ActionKeyView DataContext="{Binding RUp}"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+    </StackPanel>
+</UserControl>

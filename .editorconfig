@@ -1,0 +1,12 @@
+﻿[*.cs]
+
+# IDE0008: 明示的な型の使用
+csharp_style_var_elsewhere = true
+csharp_style_var_when_type_is_apparent=true:silent
+csharp_style_var_for_built_in_types=true:silent
+
+# IDE0130: Namespace がフォルダー構造と一致しません
+dotnet_style_namespace_match_folder = false
+
+# CA1051: 参照可能なインスタンス フィールドを宣言しません
+dotnet_diagnostic.CA1051.severity = none

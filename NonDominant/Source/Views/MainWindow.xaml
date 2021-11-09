@@ -1,0 +1,196 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NonDominant"
+        xmlns:Views="clr-namespace:NonDominant.Views"
+        xmlns:vm="clr-namespace:NonDominant.ViewModels"
+        d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
+        x:Class="NonDominant.MainWindow"
+        mc:Ignorable="d"
+        Title="NonDominant" Width="940" Height="720">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Config.xml に保存 &amp; 適用" Command="{Binding SaveCommand}" Padding="30,0"/>
+            <Label Content="対象アプリケーション：" Margin="10,0,0,0" VerticalAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding AppConfigItems}" SelectedItem="{Binding SelectedAppConfig}" DisplayMemberPath="Display" VerticalContentAlignment="Center"/>
+            <Button Content="追加" Command="{Binding AddAppCommand}" Padding="10,0"/>
+            <Button Content="削除" Command="{Binding RemoveAppCommand}" Padding="10,0"/>
+            <Button Content="アプリを変更" Command="{Binding BrowseAppCommand}"  Padding="10,0"/>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <TabControl>
+                <TabItem Header="JoyCon 左のボタン">
+                    <Grid>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">←</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.Left}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">→</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.Right}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↓</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.Down}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↑</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.Up}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">L</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.L}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">ZL</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.ZL}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">ー</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.Minus}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">SL</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.LeftSL}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">SR</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.LeftSR}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">スティック</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.LStick}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">キャプチャ</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.Capture}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="JoyCon 左のスティック">
+                    <Grid>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↖</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.LStickUpLeft}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↑</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.LStickUp}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↗</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.LStickUpRight}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↙</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.LStickDownLeft}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↓</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.LStickDown}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↘</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.LStickDownRight}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="JoyCon 右のボタン">
+                    <Grid>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">A</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.A}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">B</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.B}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">X</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.X}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">Y</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.Y}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">R</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.R}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">ZR</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.ZR}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">＋</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.Plus}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">SL</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.RightSL}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">SR</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.RightSR}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">スティック</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.RStick}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">ホーム</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.Home}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="JoyCon 右のスティック">
+                    <Grid>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↖</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.RStickUpLeft}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↑</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.RStickUp}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↗</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.RStickUpRight}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↙</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.RStickDownLeft}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↓</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.RStickDown}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="100" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Right">↘</Label>
+                                <Views:ActionSetView DataContext="{Binding SelectedAppConfig.ViewModel.RStickDownRight}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </ScrollViewer>
+    </Grid>
+</Window>
+                
