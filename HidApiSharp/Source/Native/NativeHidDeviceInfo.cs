@@ -22,3 +22,4 @@ namespace HidApiSharp
         public IntPtr NextDevice;
     }
 }
+#pragma warning restore 0649

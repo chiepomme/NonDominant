@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace HidApiSharp
 {
@@ -12,15 +13,11 @@ namespace HidApiSharp
             var devicePtr = HidApi.hid_open(deviceInfo.VenderID, deviceInfo.ProductID, deviceInfo.SerialNumber);
             if (devicePtr == IntPtr.Zero)
             {
-                Debug.WriteLine($"[エラー] デバイスが開けませんでした。");
+                var error = HidApi.hid_error(IntPtr.Zero);
+                var errorText = Marshal.PtrToStringUni(error);
+                Debug.WriteLine($"[エラー] デバイスが開けませんでした。{errorText}");
                 return null;
             }
-
-            //var error = HidApi.hid_error(devicePtr);
-            //if (error != null)
-            //{
-            //    Debug.WriteLine($"[エラー] デバイスが開けませんでした。 {error}");
-            //}
 
             return new HidDevice(devicePtr, deviceInfo);
         }
