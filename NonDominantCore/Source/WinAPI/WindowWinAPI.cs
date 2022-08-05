@@ -24,5 +24,11 @@ namespace NonDominant
             }
         }
 
+        public static string? GetForegroundFilePath()
+        {
+            var foregroundHandle = GetForegroundWindow();
+            GetWindowThreadProcessId(foregroundHandle, out var processId);
+            return GetMainModuleFilepath(processId);
+        }
     }
 }

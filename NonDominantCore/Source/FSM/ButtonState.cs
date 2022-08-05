@@ -2,7 +2,7 @@
 {
     public abstract class ButtonState
     {
-        public Button? Button { protected get; set; }
+        public IButton? Button { protected get; set; }
         public VirtualKeyboard? Keyboard { protected get; set; }
         public ActionSet? ActionSet { protected get; set; }
         public Button? L { private get; set; }

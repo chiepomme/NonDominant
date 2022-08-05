@@ -5,7 +5,6 @@ namespace HidApiSharp
 {
     public sealed class HidDevice : IDisposable
     {
-        readonly ReaderWriterLockSlim disposeLock = new();
         bool disposed;
 
         public static HidDevice? Open(HidDeviceInfo deviceInfo)
@@ -33,15 +32,10 @@ namespace HidApiSharp
 
         public void Write(byte[] bytes)
         {
-            disposeLock.EnterReadLock();
-            try
+            lock (this)
             {
                 if (disposed) return;
                 HidApi.hid_write(devicePtr, bytes, (ulong)bytes.Length);
-            }
-            finally
-            {
-                disposeLock.ExitReadLock();
             }
         }
 
@@ -50,8 +44,7 @@ namespace HidApiSharp
             var bytes = new byte[1024];
             int receivedBytes;
 
-            disposeLock.EnterReadLock();
-            try
+            lock (this)
             {
                 if (disposed) return null;
 
@@ -64,20 +57,15 @@ namespace HidApiSharp
                     receivedBytes = HidApi.hid_read(devicePtr, bytes, (ulong)bytes.Length);
                 }
             }
-            finally
-            {
-                disposeLock.ExitReadLock();
-            }
 
             if (receivedBytes == -1)
             {
-                return null;
-                //var error = HidApi.hid_error(devicePtr);
-                //if (error != null)
-                //{
-                //    Debug.WriteLine($"[エラー] 読み込みに失敗しました。 {error}");
-                //    return null;
-                //}
+                var errorPtr = HidApi.hid_error(devicePtr);
+                if (errorPtr != IntPtr.Zero)
+                {
+                    Debug.WriteLine($"[エラー] 読み込みに失敗しました。 {Marshal.PtrToStringUni(errorPtr)}");
+                    return null;
+                }
             }
             else if (receivedBytes == 0)
             {
@@ -87,18 +75,18 @@ namespace HidApiSharp
             return bytes.AsSpan(0, receivedBytes).ToArray();
         }
 
+        public void SetNonBlocking(bool nonblocking)
+        {
+            HidApi.hid_set_nonblocking(devicePtr, nonblocking ? 1 : 0);
+        }
+
         public void Dispose()
         {
-            disposeLock.EnterWriteLock();
-            try
+            lock (this)
             {
                 if (disposed) return;
                 disposed = true;
                 HidApi.hid_close(devicePtr);
-            }
-            finally
-            {
-                disposeLock.ExitWriteLock();
             }
         }
     }

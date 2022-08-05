@@ -1,23 +1,25 @@
-﻿using System.Reactive.Linq;
+﻿using JoyConSharp;
 
 namespace NonDominant
 {
-    public class Button
+    public class Button : IButton
     {
         readonly StateMachine? fsm;
+        JoyConButtons JoyConButton { get; }
 
+        bool LastPressed { get; set; }
         public bool Pressed { get; private set; }
         public bool Cancelled { get; set; }
 
         protected Button() { }
 
-        public Button(VirtualKeyboard keyboard, IObservable<bool> pressedStream, Button l, Button r, ActionSet actionSet)
+        public Button(JoyConButtons joyConButton, VirtualKeyboard keyboard, Button l, Button r, ActionSet actionSet)
         {
+            JoyConButton = joyConButton;
             fsm = new StateMachine(this, keyboard, actionSet, l, r);
-            pressedStream.Subscribe(pressed => Pressed = pressed);
         }
 
-        public void Update()
+        public void Tick()
         {
             fsm?.Tick();
         }
@@ -25,6 +27,12 @@ namespace NonDominant
         public void Cancel()
         {
             fsm?.Cancel();
+        }
+
+        public void Report(StandardInputReport report)
+        {
+            LastPressed = Pressed;
+            Pressed = report.GetPressed(JoyConButton);
         }
     }
 }

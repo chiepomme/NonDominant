@@ -8,7 +8,6 @@ namespace JoyConSharp
         readonly HidDevice hidDevice;
 
         readonly CancellationTokenSource cts = new();
-        Task? loopTask;
 
         public HidDeviceInfo DeviceInfo => hidDevice.Info;
         public JoyConVendorID Vendor => (JoyConVendorID)DeviceInfo.VenderID;
@@ -19,25 +18,26 @@ namespace JoyConSharp
         public JoyCon(HidDevice hidDevice)
         {
             this.hidDevice = hidDevice;
-
+            hidDevice.SetNonBlocking(true);
             SetInputReportMode();
         }
 
         public void Start()
         {
-            loopTask = LoopAsync();
+            _ = LoopAsync();
         }
 
         async Task LoopAsync()
         {
-            while (!cts.IsCancellationRequested)
+            while (true)
             {
                 try
                 {
-                    var report = await Task.Run(() => Read());
+                    var report = hidDevice.Read();
                     if (report == null)
                     {
-                        break;
+                        await Task.Delay(10, cts.Token).ConfigureAwait(false);
+                        continue;
                     }
 
                     switch ((InputReportID)report[0])
@@ -63,14 +63,16 @@ namespace JoyConSharp
                         }
                     }
                 }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
                 catch (Exception e)
                 {
                     Console.WriteLine($"[JoyCon] Error: {e}");
                 }
             }
         }
-
-        byte[]? Read(int? timeoutMs = null) => hidDevice.Read(timeoutMs);
 
         public void SetPlayerLights(LightState light1, LightState light2, LightState light3, LightState light4)
         {
@@ -113,16 +115,6 @@ namespace JoyConSharp
         {
             cts.Cancel();
             cts.Dispose();
-
-            try
-            {
-                loopTask?.Wait();
-            }
-            catch (TaskCanceledException) { }
-            catch (Exception e)
-            {
-                Console.WriteLine($"[JoyConManager] Error: {e}");
-            }
 
             hidDevice.Dispose();
         }

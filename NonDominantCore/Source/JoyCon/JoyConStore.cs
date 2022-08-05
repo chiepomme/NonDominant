@@ -17,6 +17,17 @@ namespace NonDominant
             manager.Start();
         }
 
+        public void Tick()
+        {
+            lock (joyCons)
+            {
+                foreach (var joyCon in joyCons)
+                {
+                    joyCon.Tick();
+                }
+            }
+        }
+
         void OnConnected(JoyConSharp.JoyCon joyCon)
         {
             lock (joyCons)
@@ -29,12 +40,15 @@ namespace NonDominant
         {
             manager.Dispose();
 
-            foreach (var joyCon in joyCons)
+            lock (joyCons)
             {
-                joyCon.Dispose();
-            }
+                foreach (var joyCon in joyCons)
+                {
+                    joyCon.Dispose();
+                }
 
-            joyCons.Clear();
+                joyCons.Clear();
+            }
         }
     }
 }

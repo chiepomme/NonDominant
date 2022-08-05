@@ -48,7 +48,7 @@ namespace JoyConSharp
                     Console.WriteLine($"[JoyConManager] Error: {e}");
                 }
 
-                await Task.Delay(100, cts.Token);
+                await Task.Delay(100, cts.Token).ConfigureAwait(false);
             }
         }
 
@@ -56,16 +56,6 @@ namespace JoyConSharp
         {
             cts.Cancel();
             cts.Dispose();
-
-            try
-            {
-                loopTask?.Wait();
-            }
-            catch (TaskCanceledException) { }
-            catch (Exception e)
-            {
-                Console.WriteLine($"[JoyConManager] Error: {e}");
-            }
 
             foreach (var joyCon in JoyCons.Values)
             {

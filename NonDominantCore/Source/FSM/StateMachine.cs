@@ -6,14 +6,14 @@ namespace NonDominant
     {
         ButtonState state;
 
-        readonly Button button;
+        readonly IButton button;
         readonly VirtualKeyboard keyboard;
 
         readonly ActionSet actionSet;
         readonly Button l;
         readonly Button r;
 
-        public StateMachine(Button button, VirtualKeyboard keyboard, ActionSet actionSet, Button l, Button r)
+        public StateMachine(IButton button, VirtualKeyboard keyboard, ActionSet actionSet, Button l, Button r)
         {
             this.button = button;
             this.keyboard = keyboard;

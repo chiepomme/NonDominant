@@ -27,7 +27,7 @@ namespace NonDominant.ViewModels
 
     class MainWindowViewModel : BindableBase, IDisposable
     {
-        readonly Runner runner = new();
+        NonDominantCore Core { get; set; }
 
         public ObservableCollection<AppConfigComboItem> AppConfigItems { get; set; }
         public AppConfigComboItem? SelectedAppConfig { get; set; }
@@ -45,7 +45,7 @@ namespace NonDominant.ViewModels
             BrowseAppCommand = new DelegateCommand(BrowseApp, () => !SelectedAppConfig.DefaultItem);
 
             var config = ConfigFile.ReadOrCreate();
-            runner.Run(config);
+            Core = new NonDominantCore(config);
 
             AppConfigItems = new ObservableCollection<AppConfigComboItem>(
                 Enumerable
@@ -87,7 +87,8 @@ namespace NonDominant.ViewModels
                 System.Windows.MessageBox.Show(e.ToString(), "設定ファイル書き込みエラー", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            runner.Run(newConfig);
+            Core?.Dispose();
+            Core = new(newConfig);
         }
 
         void AddApp()
@@ -137,7 +138,7 @@ namespace NonDominant.ViewModels
 
         public void Dispose()
         {
-            runner.Dispose();
+            Core?.Dispose();
         }
     }
 }
