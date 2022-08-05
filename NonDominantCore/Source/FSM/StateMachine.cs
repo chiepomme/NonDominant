@@ -26,6 +26,7 @@ namespace NonDominant
 
         void ChangeState(ButtonState next)
         {
+            var prevState = state;
             state?.Exit();
             state = next;
 
@@ -36,7 +37,15 @@ namespace NonDominant
             state.R = r;
 
             state.Enter();
-            Debug.WriteLine($"(State) {state.GetType().Name}");
+
+            if (prevState == null)
+            {
+                Debug.WriteLine($"({button.Name} {GetHashCode()}) {state.GetType().Name}");
+            }
+            else
+            {
+                Debug.WriteLine($"({button.Name} {GetHashCode()}) {prevState.GetType().Name} -> {state.GetType().Name}");
+            }
 
             state.Tick();
         }

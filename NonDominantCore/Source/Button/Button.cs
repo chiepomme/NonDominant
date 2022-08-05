@@ -7,9 +7,10 @@ namespace NonDominant
         readonly StateMachine? fsm;
         JoyConButtons JoyConButton { get; }
 
-        bool LastPressed { get; set; }
         public bool Pressed { get; private set; }
         public bool Cancelled { get; set; }
+
+        public string Name => JoyConButton.ToString();
 
         protected Button() { }
 
@@ -21,18 +22,44 @@ namespace NonDominant
 
         public void Tick()
         {
-            fsm?.Tick();
+            lock (this)
+            {
+                fsm?.Tick();
+            }
         }
 
         public void Cancel()
         {
-            fsm?.Cancel();
+            lock (this)
+            {
+                fsm?.Cancel();
+            }
         }
 
-        public void Report(StandardInputReport report)
+        public void ReportForUp(StandardInputReport report)
         {
-            LastPressed = Pressed;
-            Pressed = report.GetPressed(JoyConButton);
+            lock (this)
+            {
+                if (!report.GetPressed(JoyConButton))
+                {
+                    Pressed = false;
+                }
+
+                fsm?.Tick();
+            }
+        }
+
+        public void ReportForDown(StandardInputReport report)
+        {
+            lock (this)
+            {
+                if (report.GetPressed(JoyConButton))
+                {
+                    Pressed = true;
+                }
+
+                fsm?.Tick();
+            }
         }
     }
 }

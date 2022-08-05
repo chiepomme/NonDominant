@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace NonDominant
 {
@@ -42,7 +41,6 @@ namespace NonDominant
 
             if (waitingForPressOfDoubleClick && Pressed && inDoubleClickDuration)
             {
-
                 return new DoubleClick(shift);
             }
 

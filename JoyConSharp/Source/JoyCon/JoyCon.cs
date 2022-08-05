@@ -24,10 +24,10 @@ namespace JoyConSharp
 
         public void Start()
         {
-            _ = LoopAsync();
+            _ = LoopAsync(cts.Token);
         }
 
-        async Task LoopAsync()
+        async Task LoopAsync(CancellationToken ct)
         {
             while (true)
             {
@@ -36,7 +36,7 @@ namespace JoyConSharp
                     var report = hidDevice.Read();
                     if (report == null)
                     {
-                        await Task.Delay(10, cts.Token).ConfigureAwait(false);
+                        await Task.Delay(10, ct).ConfigureAwait(false);
                         continue;
                     }
 

@@ -14,6 +14,8 @@ namespace NonDominant
         public bool Pressed { get; private set; }
         public bool Cancelled { get; set; }
 
+        public string Name => $"Stick {(IsLeftStick ? "L" : "R")} {Direction}";
+
         public StickButton(JoyCon joyCon, StickDirection direction, bool isLeftStick, VirtualKeyboard keyboard, Button l, Button r, ActionSet actionSet)
         {
             JoyCon = joyCon;
@@ -24,28 +26,59 @@ namespace NonDominant
 
         public void Tick()
         {
-            fsm?.Tick();
+            lock (this)
+            {
+                fsm?.Tick();
+            }
         }
 
         public void Cancel()
         {
-            fsm?.Cancel();
+            lock (this)
+            {
+                fsm?.Cancel();
+            }
         }
 
-        public void Report(StandardInputReport report)
+        bool IsPressed(StandardInputReport report)
         {
-            LastPressed = Pressed;
-
             var x = IsLeftStick ? report.LeftStickX : report.RightStickX;
             var y = IsLeftStick ? report.LeftStickY : report.RightStickY;
 
-            Pressed = StickInterpreter.Interpret(x, y) == Direction;
-            if (!LastPressed && Pressed)
-            {
-                _ = RumbleAsync();
-            }
+            return StickInterpreter.Interpret(x, y) == Direction;
+        }
 
-            fsm?.Tick();
+        public void ReportForUp(StandardInputReport report)
+        {
+            lock (this)
+            {
+                if (!IsPressed(report))
+                {
+                    Pressed = false;
+                }
+
+                fsm?.Tick();
+            }
+        }
+
+        public void ReportForDown(StandardInputReport report)
+        {
+            lock (this)
+            {
+                LastPressed = Pressed;
+
+                if (IsPressed(report))
+                {
+                    Pressed = true;
+                }
+
+                if (!LastPressed && Pressed)
+                {
+                    _ = RumbleAsync();
+                }
+
+                fsm?.Tick();
+            }
         }
 
         async ValueTask RumbleAsync()

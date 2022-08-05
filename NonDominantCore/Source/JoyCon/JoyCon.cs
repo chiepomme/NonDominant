@@ -144,12 +144,22 @@ namespace NonDominant
         {
             foreach (var button in AllButtons)
             {
-                button.Report(report);
+                button.ReportForUp(report);
+            }
+
+            foreach (var button in AllButtons)
+            {
+                button.ReportForDown(report);
             }
 
             foreach (var stickButton in StickButtons)
             {
-                stickButton.Report(report);
+                stickButton.ReportForUp(report);
+            }
+
+            foreach (var stickButton in StickButtons)
+            {
+                stickButton.ReportForDown(report);
             }
         }
 
